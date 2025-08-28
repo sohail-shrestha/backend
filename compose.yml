@@ -1,0 +1,18 @@
+services:
+  mysql:
+    image: mysql:9.4.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - '3306:3306'
+  backend:
+    build: .
+    container_name: noro_backend
+    restart: on-failure
+    ports:
+      - '3000:3000'
+    environment:
+      DATABASE_URL: 'mysql://root:root@mysql:3306/nooro'
+    depends_on:
+      - mysql
